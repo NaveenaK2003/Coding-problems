@@ -1,0 +1,53 @@
+Check if the binary representation of a number is palindrome or not.
+Example 1:
+
+Input:
+N = 17
+Output:
+1
+Explanation:
+(17)10 = (10001)2
+Which is pallindrome hence
+output is 1.
+
+
+class Solution {
+    static long isPallindrome(long N) {
+        // code here
+         String  str ="";
+        while(N > 0){
+            str +=  N % 2;
+            N /= 2;
+        }
+        int l = 0;
+        int h = str.length() - 1;
+        while(l <= h){
+            if(str.charAt(l) != str.charAt(h))
+            return 0;
+            l++;
+            h--;
+        }
+        return 1;
+    }
+}
+
+
+
+Using StringBuilder:
+
+class Solution {
+    static long isPallindrome(long N) {
+        // code here
+        StringBuilder sb = new StringBuilder();
+        while(N > 0){
+            sb.append(N % 2);
+            N /= 2;
+        }
+        
+        StringBuilder sb1 = new StringBuilder(sb.toString());
+        sb1.reverse();
+        if(sb.toString().equals(sb1.toString()))
+        return 1;
+        return 0;
+     }
+}
