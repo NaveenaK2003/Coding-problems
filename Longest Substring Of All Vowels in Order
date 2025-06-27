@@ -1,0 +1,30 @@
+Input: word = "aeiaaioaaaaeiiiiouuuooaauuaeiu"
+Output: 13
+Explanation: The longest beautiful substring in word is "aaaaeiiiiouuu" of length 13.
+
+
+class Solution {
+    public int longestBeautifulSubstring(String word) {
+        int n = word.length();
+        String vowels = "aeiou";
+        int count = 0;
+        int vowelCount = 0;
+
+        for(int i = 0; i < n; i++){
+            if(word.charAt(i) != 'a'){
+            continue;
+            }
+            int j = i ;
+            vowelCount = 1;
+            while(j + 1 < n && word.charAt(j) <= word.charAt(j + 1)){
+                if(word.charAt(j) < word.charAt(j + 1))
+                vowelCount++;
+                j++;
+            }
+            if(vowelCount == 5)
+                count = Math.max(count,j - i + 1);
+            i = j;
+        }
+        return count;
+    }
+}
