@@ -1,0 +1,149 @@
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        int[] result  =new int[k];
+        int n = nums.length;
+        int[] freq = new int[n];
+        int[] visited = new int[n];
+        for(int i = 0; i < n; i++){
+            if(visited[i] == 1)
+            continue;
+            visited[i] = 1;
+            int count = 1;
+            for(int j = i + 1; j < n; j++){
+                if(nums[i] == nums[j]){
+                    count++;
+                    visited[j] = 1;    
+                }
+            }
+            freq[i] = count;
+        }
+        for(int i = 0; i < n - 1; i++){
+            for(int j = i + 1; j < n; j++){
+                if(freq[i] < freq[j])
+                {
+                    int temp = freq[i];
+                    freq[i] = freq[j];
+                    freq[j] = temp;
+
+                    temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                }
+            }
+        }
+         int printed = 0;
+         for(int i = 0; i < n && printed < k; i++){
+            if(freq[i] != 0)
+            {
+                result[printed++] = nums[i];
+            }
+        }
+         return result;
+    }
+}
+
+
+
+
+
+
+Online GDB:
+
+ // Step 3: Print top k elements (ignore duplicates)
+it can be optimized below:
+/*int printed = 0;
+        for (int i = 0; i < n && printed < k; i++) {
+            // Only print if not already printed
+            boolean alreadyPrinted = false;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] == arr[j]) {
+                    alreadyPrinted = true;
+                    break;
+                }
+            }
+            if (!alreadyPrinted) {
+                System.out.print(arr[i] + " ");
+                printed++;
+            }
+        }
+        System.out.println();*/
+}
+}
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input array size
+        System.out.print("Enter array size: ");
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+
+        // Input array elements
+        System.out.println("Enter array elements: ");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // Input k
+        System.out.print("Enter k: ");
+        int k = sc.nextInt();
+
+        // Find top k frequent elements
+        findTopKFrequent(arr, n, k);
+    }
+
+    // Function to find and print top k frequent elements
+    public static void findTopKFrequent(int[] arr, int n, int k) {
+        int[] freq = new int[n];
+        int[] checked = new int[n]; // Mark duplicates
+        for (int i = 0; i < n; i++) {
+            freq[i] = 0;
+            checked[i] = 0;
+        }
+
+        // Step 1: Count frequencies manually
+        for (int i = 0; i < n; i++) {
+            if (checked[i] == 1) continue; // Already counted
+            int count = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] == arr[j]) {
+                    count++;
+                    checked[j] = 1; // Mark as counted
+                }
+            }
+            freq[i] = count; // Store frequency
+        }
+
+        // Step 2: Sort arr[] and freq[] based on frequency and value
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (freq[i] < freq[j] || (freq[i] == freq[j] && arr[i] < arr[j])) {
+                    // Swap frequencies
+                    int tempFreq = freq[i];
+                    freq[i] = freq[j];
+                    freq[j] = tempFreq;
+
+                    // Swap corresponding elements
+                    int tempElement = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = tempElement;
+                }
+            }
+        }
+
+        // Step 3: Print top k elements (ignore duplicates)
+        
+        int printed = 0;
+        for (int i = 0; i < n && printed < k; i++) {
+            if (freq[i] != 0) { // freq[i] != 0 means this is the first counted occurrence
+                System.out.print(arr[i] + " ");
+                printed++;
+            }
+        }
+        System.out.println();
+    }
+}
