@@ -1,0 +1,94 @@
+Example 1:
+
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+Explanation:
+
+There is no string in strs that can be rearranged to form "bat".
+The strings "nat" and "tan" are anagrams as they can be rearranged to form each other.
+The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to form each other.
+
+
+
+Using Built-in functions
+
+class Solution {
+    public boolean isAnagram(String str, String[] strs){
+        char[] ch = str.toCharArray();
+        Arrays.sort(ch);
+        String st =  String.valueOf(ch)
+        for(int i = 0; i < strs.length; i++){
+            char[] sh = strs[i].toCharArray();
+            
+        }
+    }
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> l = new ArrayList<>();
+        int n = strs.length;
+        for(int i = 0; i < n; i++){
+            if(isAnagram(strs[i], strs)){
+                l.add(strs[i]);
+            }
+        }
+    }
+}
+
+
+
+
+without using Built-in function:
+
+
+import java.util.*;
+public class Main
+{
+    public static boolean isAnagram(String str, String str1){
+        if(str.length() != str1.length())
+        return false;
+        
+        int[] freq = new int[26];
+        for(int i = 0; i < str.length(); i++){
+            freq[str.charAt(i) - 'a']++;
+            freq[str1.charAt(i) - 'a']--;
+        }
+        for(int i = 0; i < 26; i++){
+            if(freq[i] != 0)
+            return false;
+        }
+        return true;
+    }
+    
+	public static void main(String[] args) {
+	Scanner sc = new Scanner(System.in);
+	int n =sc.nextInt();
+	sc.nextLine();
+	
+	String[] str = new String[n];
+	for(int i = 0; i < n; i++){
+	    str[i] = sc.nextLine();
+	}
+	boolean[] isAna = new boolean[n];
+	ArrayList<ArrayList<String>> list = new ArrayList<>();
+	for(int i = 0; i < n; i++){
+	    if(isAna[i] == true)
+	    {
+	       continue;
+	    }
+	    ArrayList<String> l = new ArrayList<>();
+	    l.add(str[i]);
+	    isAna[i] = true;
+	    for(int j = i + 1; j < n; j++){
+	        if(isAna[j] != true){
+	            if(isAnagram(str[i], str[j])){
+	                isAna[j] = true;
+	                l.add(str[j]);
+	            }
+	        }
+	    }
+	    list.add(l);
+	}
+	System.out.println(list);
+	}
+}
