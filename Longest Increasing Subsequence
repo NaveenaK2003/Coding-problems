@@ -1,3 +1,73 @@
+LIS Sequence printing:
+
+import java.util.*;
+
+class Main {
+
+    // lis() returns the length and the actual longest increasing subsequence
+    static void lis(int arr[]) {
+        int n = arr.length;
+        int[] lis = new int[n]; // To store lengths
+        int[] prevIndex = new int[n]; // To track previous element indices
+
+        // Initialize LIS values and previous indices
+        Arrays.fill(lis, 1);
+        Arrays.fill(prevIndex, -1);
+
+        // DP calculation
+        for (int i = 1; i < n; i++) {
+            for (int prev = 0; prev < i; prev++) {
+                if (arr[i] > arr[prev] && lis[i] < lis[prev] + 1) {
+                    lis[i] = lis[prev] + 1;
+                    prevIndex[i] = prev; // Track the sequence
+                }
+            }
+        }
+
+        // Find the index of the maximum value in lis[]
+        int maxLis = 0, maxIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (lis[i] > maxLis) {
+                maxLis = lis[i];
+                maxIndex = i;
+            }
+        }
+
+        // Print length of LIS
+        System.out.println("Length of LIS: " + maxLis);
+
+        // Reconstruct the LIS
+        List<Integer> sequence = new ArrayList<>();
+        int t = maxIndex;
+        while (t != -1) {
+            sequence.add(arr[t]);
+            t = prevIndex[t];
+        }
+
+        // Since we traced from end to start, reverse the sequence
+        Collections.reverse(sequence);
+
+        // Print the actual sequence
+        System.out.println("Longest Increasing Subsequence: " + sequence);
+    }
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        int arr[] = new int[n];
+        for(int i = 0; i < n; i++){
+            arr[i] = sc.nextInt();
+        }
+        lis(arr);
+    }
+}
+
+
+Find the length of LIS:
+
+
+
 class Solution {
     static int lis(int arr[]) {
         // code here
